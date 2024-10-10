@@ -1,12 +1,18 @@
 package controller;
 
 import config.AppConfigProperty;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DemoRestController {
+
+    // value comes from keyvault
+    @Value("${harmony-api-key}")
+    private String apiKey;
+
     private final AppConfigProperty properties;
 
     public DemoRestController(AppConfigProperty properties) {
@@ -16,6 +22,6 @@ public class DemoRestController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String readAppConfigValue() {
         System.out.println("Inside readAppConfigValue() !");
-        return properties.toString();
+        return properties.toString() + "harmony-api-key from KeyVault = " + apiKey;
     }
 }
